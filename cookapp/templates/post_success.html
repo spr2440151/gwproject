@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Post Success{% endblock %}
+    {% block contents %}
+    <br><br>
+    <div class="container">
+        <h4>投稿完了しました！</h4>
+    </div>
+    <div class="container mb-4">
+        <a href="{% url 'cook:cooks_list' %}">レシピ一覧はこちら</a>
+        <a href="{% url 'cook:index' %}">TOPページはこちら</a>
+    </div>
+    {% endblock %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}{{ recipe.title }}{% endblock %}
+{% block contents %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- タイトル -->
+            <div class="bg-dark text-white text-center py-3 mb-4 rounded">
+                <h1 class="fw-bolder">{{ recipe.title }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- 基本情報セクション -->
+    <section class="mb-5">
+        <div class="card shadow border-0">
+            <div class="card-body">
+                <h2 class="fw-bold text-center mb-4">基本情報</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="img-fluid rounded mb-3 shadow">
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>投稿者:</strong> {{ recipe.user.username }}</li>
+                            <li class="list-group-item">
+                                <strong>カテゴリ:</strong> 
+                                {% for category in recipe.category.all %}
+                                    <span class="badge bg-secondary">{{ category.title }}</span>
+                                {% endfor %}
+                            </li>
+                            <li class="list-group-item"><strong>レシピ紹介:</strong> {{ recipe.description }}</li>
+                            <li class="list-group-item"><strong>提供人数:</strong> {{ recipe.servings }}人</li>
+                            <li class="list-group-item"><strong>調理時間:</strong> {{ recipe.cooking_time }}分</li>
+                            <li class="list-group-item"><strong>投稿日時:</strong> {{ recipe.posted_at|date:"Y-m-d H:i" }}</li>
+                            <li class="list-group-item"><strong>ポイント:</strong> {{ recipe.point }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 材料セクション -->
+    <section class="mb-5">
+        <div class="card shadow border-0">
+            <div class="card-body">
+                <h2 class="fw-bold text-center mb-4 bg-light p-3 rounded">材料</h2>
+                <ul class="list-group list-group-flush">
+                    {% for ingredient in recipe.ingredients.all %}
+                        <li class="list-group-item">
+                            <strong>{{ ingredient.name }}</strong> - {{ ingredient.quantity }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 手順セクション -->
+    <section class="mb-5">
+        <div class="card shadow border-0">
+            <div class="card-body">
+                <h2 class="fw-bold text-center mb-4 bg-light p-3 rounded">手順</h2>
+                {% for step in recipe.steps.all %}
+                    <div class="mb-4">
+                        <h5 class="fw-bold">手順 {{ step.step_number }}</h5>
+                        <p>{{ step.description }}</p>
+                        {% if step.image %}
+                            <img src="{{ step.image.url }}" alt="手順 {{ step.step_number }}" class="img-fluid rounded shadow">
+                        {% endif %}
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- レビューセクション -->
+    <section class="mb-5">
+        <div class="card shadow border-0">
+            <div class="card-body">
+                <h2 class="fw-bold text-center mb-4 bg-light p-3 rounded">レビュー</h2>
+    
+                {% if user.is_authenticated %}
+                    <div class="text-center mb-4">
+                        <a href="{% url 'cook:write_review' recipe.id %}" class="btn btn-primary">
+                            レビューを書く
+                        </a>
+                    </div>
+                {% else %}
+                    <p class="text-center">レビューを書くには<a href="{% url 'accounts:login' %}">ログイン</a>してください。</p>
+                {% endif %}
+    
+                {% if recipe.reviews.exists %}
+                    {% for review in recipe.reviews.all %}
+                        <div class="card mb-3 border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">評価: 
+                                    <span class="text-warning">
+                                        {{review.rating}}
+                                    </span>
+                                </h5>
+                                <p class="card-text"><strong>{{ review.user.username }}:</strong> {{ review.comment }}</p>
+                                <p class="text-muted">投稿日時: {{ review.posted_at|date:"Y-m-d H:i" }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center">まだレビューはありません。</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    
+</div>
+{% endblock %}

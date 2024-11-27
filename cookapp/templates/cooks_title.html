@@ -1,0 +1,19 @@
+{% load static %}
+<!-- Header-->
+            <header class="bg-dark py-5">
+                <div class="container px-5">
+                    <div class="row gx-5 align-items-center justify-content-center">
+                        <div class="col-lg-8 col-xl-7 col-xxl-6">
+                            <div class="my-5 text-center text-xl-start">
+                                <h1 class="display-5 fw-bolder text-white mb-2">COOKLETE</h1>
+                                <p class="lead fw-normal text-white-50 mb-4">料理レシピの投稿・閲覧や、今日の献立に悩んでいる方向けのレシピサイトです！<br>良かったら参考にしてみてください。<br>もし参考になったのであれば、感想や新しいレシピを投稿してみてください！</p>
+                                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                                    <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">使い方説明</a>
+                                    <a class="btn btn-outline-light btn-lg px-4" href="{% url 'accounts:signup' %}">今すぐサインアップ</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="mb-5" src="{% static 'img/AIcook.png' %}" alt="" width="100%" height="90%" /></div>
+                    </div>
+                </div>
+            </header>

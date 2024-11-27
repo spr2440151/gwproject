@@ -1,0 +1,30 @@
+<div class="container px-5 my-5">
+    <aside class="bg-primary bg-gradient rounded-3 p-4 p-sm-5 mt-5">
+        <div class="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
+            <div class="mb-4 mb-xl-0">
+                <div class="fs-3 fw-bold text-white">早速検索してみましょう！</div>
+                <div class="text-white-50">右の検索ボックスに料理名を入れてみましょう。</div>
+            </div>
+            <div class="ms-xl-4">
+                <!-- 検索窓 -->
+                <form method="GET" action="{% url 'cook:cooks_list' %}">
+                    <div class="input-group mb-2">
+                        <input class="form-control" type="text" placeholder="例)フレンチトースト...etc" name="keyword" value="{{ request.GET.keyword }}" aria-label="検索" aria-describedby="button-search" />
+                        <button class="btn btn-outline-light" id="button-search" type="submit">検索</button>
+                    </div>
+                </form>
+                <div class="small text-white-50">特定のレシピをお探しでない方は、サイト上部の「レシピを見る」からご覧ください。</div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+{% if messages %}
+<ul class="list-unstyled" style="list-style: none;">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- ページのタイトル -->
+{% block title %}お気軽にご連絡してください！！{% endblock %}
+{% block contents %}
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+            <div class="text-center mb-5">
+                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
+                <h1 class="fw-bolder">連絡</h1>
+                <p class="lead fw-normal text-muted mb-0">ぜひご意見をお待ちしております</p>
+                    <!-- フォーム送信後のメッセージ表示 -->
+                    {% if messages %}
+                    <ul class="list-unstyled" style="list-style: none;">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        {{ message }}
+                    </li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    <!-- フォーム -->
+                    <div class="my-5">
+                    <form method="post" action="{% url 'cook:contact' %}">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-control">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="text-danger">{{ field.errors|join:" " }}</div>
+                        {% endif %}
+                        </div>
+                        {% endfor %}
+                        <br>
+                        <button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

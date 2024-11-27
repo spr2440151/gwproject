@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}レシピ投稿 - 材料{% endblock %}
+{% block contents %}
+<div class="container mt-4">
+    <h1 class="mb-4">レシピの投稿 材料</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div id="ingredient-forms">
+            <div class="card mb-4 ingredient-item">
+                <div class="card-header bg-success text-white">材料</div>
+                <div class="card-body">
+                    {{ form.as_p }}
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-danger btn-sm remove-ingredient">削除</button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary mb-3" id="add-ingredient">材料を追加</button>
+            <button type="submit" class="btn btn-success btn-lg">次へ</button>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const ingredientForms = document.getElementById('ingredient-forms');
+    const addIngredientButton = document.getElementById('add-ingredient');
+    
+    addIngredientButton.addEventListener("click", function() {
+        const newForm = ingredientForms.firstElementChild.cloneNode(true);
+        newForm.querySelectorAll("input").forEach(input => input.value = "");
+        ingredientForms.appendChild(newForm);
+    });
+
+    ingredientForms.addEventListener("click", function(event) {
+        if (event.target.classList.contains('remove-ingredient')) {
+            if (ingredientForms.children.length > 1) {
+                event.target.closest('.ingredient-item').remove();
+            } else {
+                alert('少なくとも1つの材料が必要です。');
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
